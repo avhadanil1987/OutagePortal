@@ -1,0 +1,94 @@
+﻿
+@model PagedList.IPagedList<ApplicationOutage.Outage>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Incident Report";
+}
+
+<h2 class="centerText">Incident Report</h2>
+<div>
+    @using (Html.BeginForm())
+    {
+        <p>
+            Find by Incident #: @Html.TextBox("SearchString")
+            <input type="submit" value="Search" class="btn btn-primary" />
+        </p>
+    }
+</div>
+<p>
+    @Html.ActionLink("Create New", "Add")
+</p>
+<table class="table table-bordered table-condensed table-hover table-striped">
+    <tr>
+        <th>
+            @Html.DisplayName("Start Date")
+        </th>
+        <th>
+            @Html.DisplayName("End Date")
+        </th>
+        <th>
+            @Html.DisplayName("Total Outage")
+        </th>
+        <th>
+            @Html.DisplayName("Impact")
+        </th>
+        <th>
+            @Html.DisplayName("Incident Number")
+        </th>
+        <th>
+            @Html.DisplayName("Description")
+        </th>
+        <th>
+            @Html.DisplayName("Component")
+        </th>
+        <th>
+            @Html.DisplayName("Application Name")
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndDate)
+            </td>
+            <td>
+
+                @{
+                    double min = (item.EndDate - item.StartDate).TotalMinutes;
+                }
+                @min
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Impact)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IncidentNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Component)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Application.ApplicationName)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            </td>
+        </tr>
+    }
+</table>
+<hr/>
+<br/>
+<div class="pager">
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+         @Html.PagedListPager(Model, page => Url.Action("Index", new { page}))
+</div>

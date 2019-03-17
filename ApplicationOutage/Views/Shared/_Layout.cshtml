@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WK-ITOps Data Portal</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top navColor">
+        <div class="navbar-header pull-left">
+            <a href="@Url.Action("Index", "Outage")">
+                <img src="~/Images/Logo.jpg" alt="Site Logo" class="logo" />
+            </a>
+        </div>
+        <div class="container">
+            <div class="navbar-header">
+
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Outage List", "Index", "Outage",null,htmlAttributes: new {@class= "navTabColor" })</li>
+                    <li>@Html.ActionLink("Availability Report", "TotalAvailability", "Availability", null, htmlAttributes: new { @class = "navTabColor" })</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid body-content">
+        @RenderBody()
+        <hr />
+        <footer class="footerBottom">
+            <p class="centerText" >@DateTime.Now.Year -Wolters kluwer</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

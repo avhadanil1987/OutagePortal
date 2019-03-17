@@ -1,0 +1,67 @@
+﻿@{
+    ViewBag.Title = "Total Avialablilty";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Scripts/c3.min.js"></script>
+<script src="~/Scripts/d3.min.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="~/Scripts/jquery.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="~/Scripts/pieChart.js"></script>
+<script src="~/Scripts/totalAvailablity.js"></script>
+
+<h2 class="centerText">Total Availablity</h2>
+
+<div class=" col-md-12 form-horizontal">
+    <hr />
+    <div class="col-md-7">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.Label("Years", htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class="col-md-8">
+                @Html.DropDownList("Years", (IEnumerable<SelectListItem>)ViewBag.Years, "--Select Years--", htmlAttributes: new { @class = "form-control", onchange = "SelectedIndexChanged()" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Months", htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class="col-md-8">
+                @Html.DropDownList("Months", (IEnumerable<SelectListItem>)ViewBag.Months, "--Select Months--", htmlAttributes: new { @class = "form-control", onchange = "SelectedIndexChanged()" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("ApplicationID", "Application", htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class="col-md-8">
+                @Html.DropDownList("ApplicationID", (IEnumerable<SelectListItem>)ViewBag.Applications, "--Select Application--", htmlAttributes: new { @class = "form-control", onchange = "SelectedIndexChanged()" })
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-5">
+        <div id="Barchart" class="Barchart" style="display:none"></div>
+    </div>
+</div>
+
+<div id="divAvailability" class="col-md-12 form-horizontal" style="display:none">
+    <table  class="table table-bordered table-condensed table-hover table-striped">
+        <thead>
+            <tr>
+                <th>Year</th>
+                <th>Month</th>
+                <th>Application</th>
+                <th>Availablity</th>
+                <th>Outage</th>
+                <th>Goal Availability</th>
+            </tr> 
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+    
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }

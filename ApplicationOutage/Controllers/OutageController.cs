@@ -141,7 +141,6 @@ namespace ApplicationOutage.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public FileStreamResult ExportToExcel()
         {
             OutageManager outageManager = new OutageManager();
@@ -156,7 +155,7 @@ namespace ApplicationOutage.Controllers
                 MemoryStream MS = new MemoryStream();
                 using (ExcelPackage package = new ExcelPackage(file))
                 {
-                    ExcelWorksheet ws = package.Workbook.Worksheets.Add("Availablity");
+                    ExcelWorksheet ws = package.Workbook.Worksheets.Add("Outage Data");
 
                     // Set Header.
                     ws.Cells["A1"].Value = "Application Name";

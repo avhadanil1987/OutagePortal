@@ -1,4 +1,5 @@
 ﻿function SelectedIndexChanged() {
+    //debugger;
     document.getElementById("btnDownload").disabled = true; 
     hideDiv();
     $("table").find("tr:not(:first)").remove(); 
@@ -32,6 +33,10 @@
     });
 
     function successFunc(jsondata) {
+        var xAxis = []; 
+        jsondata.forEach(function (e) {
+            xAxis.push(e.MonthName.substring(0, 3)+' '+e.Year+' ('+e.ApplicationName+')');
+        })  
         var chart = c3.generate({
             bindto: '#Barchart',
             data: {
@@ -42,12 +47,18 @@
                 columns: ['GoalAvailability', 'Outage'],
                 type: 'bar'
             },
+            axis: {
+                x: {
+                    type: 'category',
+                    categories: xAxis
+                }
+            },
             color: {
                 pattern: [' #2ca02c', 'EF0909', '#ff7f0e', '#ffbb78', '#ff9896', '#1f77b4', '#d62728', '#aec7e8', '#9467bd', '#c5b0d5', '#8c564b', '#c49c94', '#e377c2', '#f7b6d2', '#7f7f7f', '#c7c7c7', '#bcbd22', '#dbdb8d', '#17becf', '#9edae5']
             },
             pie: {
                 label: {
-                    format: function (value, ratio, id) {
+                    format: function (value, ratio,ApplicationName) {
                         return value;
                     }
                 }
@@ -63,6 +74,7 @@
             tr.append("<td>" + json[i].MonthName + "</td>");
             tr.append("<td>" + json[i].ApplicationName + "</td>");
             tr.append("<td>" + json[i].AvailabilityInPercentage + "</td>");
+            tr.append("<td>" + json[i].NumberOfOutage + "</td>");
             tr.append("<td>" + json[i].Outage + "</td>");
             tr.append("<td>" + json[i].GoalAvailability + "</td>");
             $('table').append(tr);

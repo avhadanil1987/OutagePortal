@@ -141,6 +141,7 @@ namespace ApplicationOutage.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public FileStreamResult ExportToExcel()
         {
             OutageManager outageManager = new OutageManager();
@@ -217,6 +218,11 @@ namespace ApplicationOutage.Controllers
                 FSR.FileDownloadName = fileName;
                 return FSR;
             }
+            return null;
+        }
+
+        public FileStreamResult Import()
+        {
             return null;
         }
     }

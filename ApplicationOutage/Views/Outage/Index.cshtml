@@ -24,11 +24,21 @@
             </p>
         }
     </div>
-    <div class="col-sm-4">
-            <p class="pull-left move15Left">
-                <input type="button" value="Create New" class="btn btn-secondary btn-sm" onclick="location.href='@Url.Action("Add", "Outage")'" />
-            </p>
+    <div class="col-sm-1">
+        <p class="pull-left move15Left">
+            <input type="button" value="Create New" class="btn btn-secondary btn-sm" onclick="location.href='@Url.Action("Add", "Outage")'" />
+        </p>
     </div>
+
+    <div class="col-sm-1">
+        @using (Html.BeginForm("Import", "Outage", FormMethod.Post))
+        {
+            <p class="pull-left">
+                <input type="submit" value="Import" class="btn btn-info btn-sm" />
+            </p>
+        }
+    </div>
+
 </div>
 <table class="table table-bordered table-condensed table-hover table-striped">
     <tr>

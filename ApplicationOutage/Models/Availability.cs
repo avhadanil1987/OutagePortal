@@ -13,6 +13,7 @@ namespace ApplicationOutage.Models
         public string ApplicationName { get; set; }
         public int ApplicationId { get; set; }
         public double Outage { get; set; }
+        public int NumberOfOutage { get; set; }
         public double GoalAvailability { get; set; }
         public double AvailabilityInPercentage { get; set; }
     }

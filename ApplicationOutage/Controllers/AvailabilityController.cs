@@ -62,15 +62,16 @@ namespace ApplicationOutage.Controllers
                     ws.Cells["B1"].Value = "Month";
                     ws.Cells["C1"].Value = "Application Name";
                     ws.Cells["D1"].Value = "Availability";
-                    ws.Cells["E1"].Value = "Goal Availability";
-                    ws.Cells["F1"].Value = "Outage";
-                    ws.Cells["A1:F1"].Style.Font.Bold = true;
+                    ws.Cells["E1"].Value = "#Outage";
+                    ws.Cells["F1"].Value = "Outage (Min)";
+                    ws.Cells["G1"].Value = "Goal Availability (Min)";
+                    ws.Cells["A1:G1"].Style.Font.Bold = true;
                     ws.Cells[ws.Dimension.Address].AutoFitColumns();
                     
                     // Set color to headers.
-                    ws.Cells["A1:F1"].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-                    ws.Cells["A1:F1"].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Silver);
-                    ws.Cells["A1:F1"].Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
+                    ws.Cells["A1:G1"].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                    ws.Cells["A1:G1"].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Silver);
+                    ws.Cells["A1:G1"].Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
 
                     // set style to header cells.
                     ws.Cells["A1"].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
@@ -79,6 +80,7 @@ namespace ApplicationOutage.Controllers
                     ws.Cells["D1"].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
                     ws.Cells["E1"].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
                     ws.Cells["F1"].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    ws.Cells["G1"].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
 
                     // Write data here...
                     int rowCount = 2;
@@ -90,8 +92,9 @@ namespace ApplicationOutage.Controllers
                         ws.Cells[rowCount, ++colCount].Value = item.MonthName;
                         ws.Cells[rowCount, ++colCount].Value = item.ApplicationName;
                         ws.Cells[rowCount, ++colCount].Value = item.AvailabilityInPercentage;
-                        ws.Cells[rowCount, ++colCount].Value = item.GoalAvailability;
+                        ws.Cells[rowCount, ++colCount].Value = item.NumberOfOutage;
                         ws.Cells[rowCount, ++colCount].Value = item.Outage;
+                        ws.Cells[rowCount, ++colCount].Value = item.GoalAvailability;
 
                         // set style here.
                         for (int i = 1; i <= colCount; i++)
@@ -157,6 +160,7 @@ namespace ApplicationOutage.Controllers
                             {
                                 ApplicationName = outageItem.Application.ApplicationName,
                                 Month = item.Month,
+                                NumberOfOutage= monthlyOutage.Count(),
                                 Outage = (outageItem.EndDate - outageItem.StartDate).TotalMinutes,
                                 Year = item.Year,
                                 GoalAvailability = item.Availability
@@ -167,12 +171,13 @@ namespace ApplicationOutage.Controllers
 
                 if (availabilities.Any())
                 {
-                    var result = availabilities.GroupBy(x => new { x.ApplicationName, x.GoalAvailability, x.Month, x.Year }).Select(g => new Availability
+                    var result = availabilities.GroupBy(x => new { x.ApplicationName, x.GoalAvailability, x.Month, x.Year, x.NumberOfOutage }).Select(g => new Availability
                     {
                         ApplicationName = g.Key.ApplicationName,
                         GoalAvailability = g.Key.GoalAvailability,
                         MonthName = Convert.ToString((Months)Enum.ToObject(typeof(Months), g.Key.Month)),
                         Year = g.Key.Year,
+                        NumberOfOutage = g.GroupBy(x => x.ApplicationId).Select(y => y.Count()).FirstOrDefault(),
                         Outage = g.Sum(x => x.Outage),
                         AvailabilityInPercentage = Math.Round((((g.Key.GoalAvailability - g.Sum(x => x.Outage)) * 100) / g.Key.GoalAvailability), 2)
                     }).ToList();

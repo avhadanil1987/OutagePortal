@@ -1,4 +1,5 @@
 ﻿function SelectedIndexChanged() {
+    document.getElementById("btnDownload").disabled = true; 
     hideDiv();
     $("table").find("tr:not(:first)").remove(); 
     if ($('#Years').val() == "") {
@@ -18,7 +19,8 @@
         data: dataObject,
         success: function (result) {
             if (result) {
-                if (result != "undefined" || result!= null) {
+                if (result != "undefined" || result != null) {
+                    document.getElementById("btnDownload").disabled = false; 
                     showDiv();
                     FillTable(result);
                     successFunc(result);

@@ -6,18 +6,30 @@
 }
 
 <h2 class="centerText">Incident Report</h2>
-<div>
-    @using (Html.BeginForm())
-    {
-        <p>
-            Find by Incident #: @Html.TextBox("SearchString")
-            <input type="submit" value="Search" class="btn btn-primary" />
-        </p>
-    }
+<div class="col-sd-12">
+    <div class="col-sm-4">
+        @using (Html.BeginForm())
+        {
+            <p class="pull-right">
+                Find by Incident #: @Html.TextBox("SearchString")
+                <input type="submit" value="Search" class="btn btn-primary btn-sm" />
+            </p>
+        }
+    </div>
+    <div class="col-sm-1">
+        @using (Html.BeginForm("ExportToExcel", "Outage", FormMethod.Post))
+        {
+            <p class="pull-left">
+                <input type="submit" value="Export To Excel" class="btn btn-success btn-sm" />
+            </p>
+        }
+    </div>
+    <div class="col-sm-4">
+            <p class="pull-left move15Left">
+                <input type="button" value="Create New" class="btn btn-secondary btn-sm" onclick="location.href='@Url.Action("Add", "Outage")'" />
+            </p>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Create New", "Add")
-</p>
 <table class="table table-bordered table-condensed table-hover table-striped">
     <tr>
         <th>

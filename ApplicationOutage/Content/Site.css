@@ -52,3 +52,9 @@ textarea {
 .navTabColor {
     color: black !important;
 }
+.move15Left {
+    padding-left: 15px;
+}
+.move70Left {
+    padding-left: 70px;
+}

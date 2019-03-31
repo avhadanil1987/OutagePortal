@@ -1,16 +1,18 @@
 ﻿using ApplicationOutage.Models;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.IO;
 
 namespace ApplicationOutage.Controllers
 {
     public class AvailabilityController : Controller
     {
         // GET: Availability
-        public ActionResult TotalAvailability()
+        public ActionResult TotalAvailability(int? Years, int? Months, int? ApplicationID)
         {
             List<SelectListItem> years = new List<SelectListItem>();
             int currentYear = DateTime.Now.Year;
@@ -33,6 +35,80 @@ namespace ApplicationOutage.Controllers
         {
             var reult = this.CalculateAvailablity(Year,Month, applicationId);
             return Json(reult, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public FileStreamResult ExportToExcel(int? Years, int? Months, int? ApplicationID)
+        {
+            int year = Years.HasValue ? Years.Value : 0;
+            int month = Months.HasValue ? Months.Value : 0;
+            int applicationId = ApplicationID.HasValue ? ApplicationID.Value : 0;
+
+            var reult = this.CalculateAvailablity(year, month, applicationId);
+            if (reult.Any())
+            {
+                string fileName = DateTime.Now.ToString("MM_dd_yyyy_HH_mm_ss")+"_Availablity.xlsx";
+                var serverPath = HttpContext.Server.MapPath("~/Downloads/");
+                DirectoryInfo outputDir = new DirectoryInfo(serverPath);
+                FileInfo file = new FileInfo(outputDir.FullName+ fileName);
+
+                MemoryStream MS = new MemoryStream();
+                using (ExcelPackage package = new ExcelPackage(file))
+                {
+                    ExcelWorksheet ws = package.Workbook.Worksheets.Add("Availablity");
+
+                    // Set Header.
+                    ws.Cells["A1"].Value = "Year";
+                    ws.Cells["B1"].Value = "Month";
+                    ws.Cells["C1"].Value = "Application Name";
+                    ws.Cells["D1"].Value = "Availability";
+                    ws.Cells["E1"].Value = "Goal Availability";
+                    ws.Cells["F1"].Value = "Outage";
+                    ws.Cells["A1:F1"].Style.Font.Bold = true;
+                    ws.Cells[ws.Dimension.Address].AutoFitColumns();
+                    
+                    // Set color to headers.
+                    ws.Cells["A1:F1"].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                    ws.Cells["A1:F1"].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Silver);
+                    ws.Cells["A1:F1"].Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
+
+                    // set style to header cells.
+                    ws.Cells["A1"].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    ws.Cells["B1"].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    ws.Cells["C1"].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    ws.Cells["D1"].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    ws.Cells["E1"].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                    ws.Cells["F1"].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+
+                    // Write data here...
+                    int rowCount = 2;
+                    int colCount = 0;
+                    foreach (var item in reult)
+                    {
+                        colCount = 1;
+                        ws.Cells[rowCount, colCount].Value = item.Year;
+                        ws.Cells[rowCount, ++colCount].Value = item.MonthName;
+                        ws.Cells[rowCount, ++colCount].Value = item.ApplicationName;
+                        ws.Cells[rowCount, ++colCount].Value = item.AvailabilityInPercentage;
+                        ws.Cells[rowCount, ++colCount].Value = item.GoalAvailability;
+                        ws.Cells[rowCount, ++colCount].Value = item.Outage;
+
+                        // set style here.
+                        for (int i = 1; i <= colCount; i++)
+                        {
+                            ws.Cells[rowCount, i].Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
+                        }
+                        rowCount++;
+                    }
+                    package.SaveAs(MS);
+                }
+                MS.Position = 0;
+               var contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                FileStreamResult FSR = new FileStreamResult(MS, contentType);
+                FSR.FileDownloadName = fileName;
+                return FSR;
+            }
+            return null;
         }
 
         private List<Availability> CalculateAvailablity(int Year, int Month,int applicationId)

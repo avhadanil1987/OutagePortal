@@ -1,5 +1,5 @@
 ﻿@using System.Web.Mvc.Html;
-@model ApplicationOutage.Outage
+@model ApplicationOutage.ViewModels.OutageViewModel
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="~/Scripts/jquery.js"></script>
@@ -35,6 +35,9 @@
         <div class="col-md-10">
             @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+            <div>
+                <span id="errormess" class="text-danger"></span>
+            </div>
         </div>
     </div>
 
@@ -43,6 +46,9 @@
         <div class="col-md-10">
             @Html.EditorFor(model => model.IncidentNumber, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.IncidentNumber, "", new { @class = "text-danger" })
+            <div>
+                <span id="errorIncident" class="text-danger"></span>
+            </div>
         </div>
     </div>
 
@@ -82,7 +88,7 @@
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Add Outage" class="btn btn-success" />
+            <input id="btnOutage" type="submit" value="Add Outage" class="btn btn-success" />
         </div>
     </div>
 </div>
@@ -92,20 +98,14 @@
     @Html.ActionLink("Back to List", "Index")
 </div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
-
 <script type="text/javascript">
-    var currentYear = new Date();
     $(document).ready(function () {
         $(function () {
             $("#StartDate,#EndDate").datetimepicker({
-                format: 'd/m/Y H:i',
+                format: 'd-m-Y H:i',
                 step: 05
             });
         });
-
     });
 </script>
 

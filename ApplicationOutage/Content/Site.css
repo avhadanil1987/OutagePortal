@@ -46,8 +46,9 @@ textarea {
     width: 284px;
 }
 .navColor {
+    border-top: 1px solid red !important;
     background-color: white !important;
-    border-color: red !important;
+    border-bottom: 4px solid red !important;
 }
 .navTabColor {
     color: black !important;

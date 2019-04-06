@@ -1,4 +1,4 @@
-﻿@model ApplicationOutage.Outage
+﻿@model ApplicationOutage.ViewModels.OutageViewModel
 
 @{
     ViewBag.Title = "Details";
@@ -52,11 +52,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Application.ApplicationName)
+            @Html.DisplayNameFor(model => model.ApplicationName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Application.ApplicationName)
+            @Html.DisplayFor(model => model.ApplicationName)
         </dd>
 
     </dl>

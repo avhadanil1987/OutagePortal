@@ -9,6 +9,7 @@
         <EntityTypeShape EntityType="ApplicationOutageModel.Outage" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
         <AssociationConnector Association="ApplicationOutageModel.FK_Outage_Application" ManuallyRouted="false" />
         <EntityTypeShape EntityType="ApplicationOutageModel.YearlyAvailability" Width="1.5" PointX="5.125" PointY="1.5" />
+        <EntityTypeShape EntityType="ApplicationOutageModel.User" Width="1.5" PointX="0.75" PointY="4.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

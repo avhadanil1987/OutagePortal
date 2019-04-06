@@ -1,0 +1,53 @@
+﻿
+@model ApplicationOutage.ViewModels.LoginModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2 class="centerText">Login</h2>
+
+@using (Html.BeginForm("LoginUser", "Users", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class=" col-md-12 form-horizontal">
+        <hr />
+        <div class="form-group">
+            @Html.LabelFor(model => model.UserEmail, "User Email", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.UserEmail, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.UserEmail, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Password, "Password", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
+                @Html.HiddenFor(model => model.EncryptPassword)
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    <span class="text-danger">@ViewBag.Message</span>
+                </div>
+            </div>
+
+            <div class="col-sm-2">
+
+            </div>
+            <div class="col-sm-3">
+                <input type="submit" value="Login" onclick="LoginForm()" class="btn btn-success btn-sm" />
+                @Html.ActionLink("Register", "Register", "Users", null, new { @class = "btn btn-info btn-sm" })
+                @Html.ActionLink("Forgot Password", "ForgotPassword", "Users", null, new { @class = "btn btn-primary btn-sm" })
+            </div>
+        </div>
+    </div>
+}
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/crytography")
+
+
+

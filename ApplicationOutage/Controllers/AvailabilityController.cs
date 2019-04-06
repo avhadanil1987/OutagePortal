@@ -6,9 +6,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.IO;
+using ApplicationOutage.Filters;
 
 namespace ApplicationOutage.Controllers
 {
+    [CustomAuthorize]
     public class AvailabilityController : Controller
     {
         // GET: Availability

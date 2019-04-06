@@ -1,4 +1,4 @@
-﻿@model ApplicationOutage.Outage
+﻿@model ApplicationOutage.ViewModels.OutageViewModel
 
 @{
     ViewBag.Title = "Delete";
@@ -15,58 +15,52 @@
         <dt>
             @Html.DisplayNameFor(model => model.StartDate)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.StartDate)
         </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.EndDate)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.EndDate)
         </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.Impact)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Impact)
         </dd>
-
+        <dt>
+            @Html.DisplayNameFor(model => model.IncidentNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IncidentNumber)
+        </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Description)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Description)
         </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.Component)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Component)
         </dd>
-
         <dt>
-            @Html.DisplayNameFor(model => model.Application.ApplicationName)
+            @Html.DisplayNameFor(model => model.ApplicationName)
         </dt>
-
         <dd>
-            @Html.DisplayFor(model => model.Application.ApplicationName)
+            @Html.DisplayFor(model => model.ApplicationName)
         </dd>
-
     </dl>
 
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
+            <input type="submit" value="Delete" class="btn btn-danger btn-sm" /> |
             @Html.ActionLink("Back to List", "Index")
         </div>
     }

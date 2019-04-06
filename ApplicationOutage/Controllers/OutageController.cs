@@ -8,9 +8,12 @@ using System.Web.Mvc;
 using PagedList;
 using System.IO;
 using OfficeOpenXml;
+using ApplicationOutage.Filters;
+using ApplicationOutage.ViewModels;
 
 namespace ApplicationOutage.Controllers
 {
+    [CustomAuthorize]
     public class OutageController : Controller
     {
         // GET: Outage
@@ -43,7 +46,7 @@ namespace ApplicationOutage.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Save([Bind(Include = "ID,ApplicationID,StartDate,EndDate,IncidentNumber,Impact,Description,Component")] Outage outage)
+        public ActionResult Save([Bind(Include = "ID,ApplicationID,StartDate,EndDate,IncidentNumber,Impact,Description,Component")] OutageViewModel outage)
         {
             if (ModelState.IsValid)
             {
@@ -64,7 +67,7 @@ namespace ApplicationOutage.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             OutageManager outageManager = new OutageManager();
-            Outage outage = outageManager.GetOutage(id);
+            OutageViewModel outage = outageManager.GetOutage(id);
             if (outage == null)
             {
                 return HttpNotFound();
@@ -80,7 +83,7 @@ namespace ApplicationOutage.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             OutageManager outageManager = new OutageManager();
-            Outage outage = outageManager.GetOutage(id);
+            OutageViewModel outage = outageManager.GetOutage(id);
             if (outage == null)
             {
                 return HttpNotFound();
@@ -96,7 +99,7 @@ namespace ApplicationOutage.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,ApplicationID,StartDate,EndDate,IncidentNumber,Impact,Description,Component")] Outage outage)
+        public ActionResult Edit([Bind(Include = "ID,ApplicationID,StartDate,EndDate,IncidentNumber,Impact,Description,Component")] OutageViewModel outage)
         {
             if (ModelState.IsValid)
             {
@@ -122,7 +125,7 @@ namespace ApplicationOutage.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             OutageManager outageManager = new OutageManager();
-            Outage outage = outageManager.GetOutage(id);
+            OutageViewModel outage = outageManager.GetOutage(id);
             if (outage == null)
             {
                 return HttpNotFound();
@@ -138,6 +141,13 @@ namespace ApplicationOutage.Controllers
             OutageManager outageManager = new OutageManager();
             outageManager.DeleteOutage(id);
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public bool GetIncidents(string IncidentNumber)
+        {
+            OutageManager outageManager = new OutageManager();
+           return outageManager.GetIncident(IncidentNumber);
         }
 
         [HttpPost]

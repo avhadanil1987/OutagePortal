@@ -1,6 +1,8 @@
-﻿using System;
+﻿using ApplicationOutage.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 
@@ -8,7 +10,7 @@ namespace ApplicationOutage.Models
 {
     public class OutageManager
     {
-        public bool AddOutage(Outage outage)
+        public bool AddOutage(OutageViewModel outage)
         {
             using (ApplicationOutageEntities entities = new ApplicationOutageEntities())
             {
@@ -40,24 +42,43 @@ namespace ApplicationOutage.Models
                 }
                 else
                 {
-                    entities.Outages.Add(outage);
+                    entities.Outages.Add(new Outage()
+                    {
+                        ApplicationID = outage.ApplicationID,
+                        StartDate = outage.StartDate,
+                        EndDate = outage.EndDate,
+                        Component = outage.Component,
+                        IncidentNumber = outage.IncidentNumber,
+                        Impact = outage.Impact,
+                        Description = outage.Description
+                    });
                 }
                 entities.SaveChanges();
                 return true;
             }
         }
 
-        public bool EditOutage(Outage outage)
+        public bool EditOutage(OutageViewModel outageData)
         {
 
             using (ApplicationOutageEntities entities = new ApplicationOutageEntities())
             {
-                entities.Entry(outage).State = EntityState.Modified;
-                entities.SaveChanges();
+                Outage outage = new Outage()
+                {
+                    ApplicationID = outageData.ApplicationID,
+                    StartDate = outageData.StartDate,
+                    EndDate = outageData.EndDate,
+                    IncidentNumber = outageData.IncidentNumber,
+                    Component = outageData.Component,
+                    Description = outageData.Description,
+                    ID = outageData.ID,
+                    Impact = outageData.Impact
+                };
+
                 if (outage.StartDate.Month != outage.EndDate.Month)
                 {
                     Outage outageDelete = entities.Outages.Find(outage.ID);
-                    entities.Outages.Remove(outage);
+                    entities.Outages.Remove(outageDelete);
                     entities.SaveChanges();
 
                     DateTime newEndDate = new DateTime(outage.StartDate.Year, outage.StartDate.Month, (DateTime.DaysInMonth(outage.StartDate.Year, outage.StartDate.Month)), 23, 59, 00);
@@ -87,27 +108,53 @@ namespace ApplicationOutage.Models
                 }
                 else
                 {
-                    entities.Outages.Add(outage);
+                    var oldOutage = entities.Outages.FirstOrDefault(x => x.ID == outage.ID);
+                    if (oldOutage != null)
+                    {
+                        oldOutage.ApplicationID = outageData.ApplicationID;
+                        oldOutage.StartDate = outageData.StartDate;
+                        oldOutage.EndDate = outageData.EndDate;
+                        oldOutage.IncidentNumber = outageData.IncidentNumber;
+                        oldOutage.Component = outageData.Component;
+                        oldOutage.Description = outageData.Description;
+                        oldOutage.ID = outageData.ID;
+                        oldOutage.Impact = outageData.Impact;
+                        entities.Entry(oldOutage).CurrentValues.SetValues(oldOutage);
+                    }
                 }
                 entities.SaveChanges();
                 return true;
             }
         }
 
-        public Outage GetOutage(int? id)
+        public OutageViewModel GetOutage(int? id)
         {
             ApplicationOutageEntities entities = new ApplicationOutageEntities();
-            Outage outage = entities.Outages.Find(id);
-            return outage;
+            Outage outage = entities.Outages.FirstOrDefault(x=>x.ID==id);
+            if (outage != null)
+            {
+                return new OutageViewModel()
+                {
+                    ApplicationID = outage.ApplicationID,
+                    Component = outage.Component,
+                    Description = outage.Description,
+                    EndDate = outage.EndDate,
+                    StartDate = outage.StartDate,
+                    ID = outage.ID,
+                    Impact = outage.Impact,
+                    IncidentNumber = outage.IncidentNumber,
+                    ApplicationName=outage.Application.ApplicationName
+                };
+            }
+            return null;
         }
 
-        public Outage DeleteOutage(int id)
+        public void DeleteOutage(int id)
         {
             ApplicationOutageEntities entities = new ApplicationOutageEntities();
             Outage outage = entities.Outages.Find(id);
             entities.Outages.Remove(outage);
             entities.SaveChanges();
-            return outage;
         }
 
         public List<Outage> GetOutages()
@@ -115,6 +162,15 @@ namespace ApplicationOutage.Models
             using (ApplicationOutageEntities entities = new ApplicationOutageEntities())
             {
                 return entities.Outages.Include("Application").ToList();
+            }
+        }
+
+        public bool GetIncident(string IncidentNumber)
+        {
+            using (ApplicationOutageEntities entities = new ApplicationOutageEntities())
+            {
+                var incidentRecord= entities.Outages.FirstOrDefault(x => x.IncidentNumber.ToUpper().Trim().Equals(IncidentNumber.ToUpper().Trim()));
+                return incidentRecord == null?false:true;
             }
         }
     }

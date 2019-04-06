@@ -27,7 +27,7 @@
                     successFunc(result);
                 }
             } else {
-                alert("Error")
+                
             }
         }
     });
@@ -84,10 +84,13 @@
     function hideDiv() {
         document.getElementById('divAvailability').style.display = "none";
         document.getElementById('Barchart').style.display = "none";
+        if ($('#Years').val() != "") {
+            document.getElementById('showMsg').style.display = "";
+        }
     }
     function showDiv() {
         document.getElementById('divAvailability').style.display = "";
         document.getElementById('Barchart').style.display = "";
-        
+        document.getElementById('showMsg').style.display = "none";
     }
 }

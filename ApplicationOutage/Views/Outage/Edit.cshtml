@@ -1,4 +1,4 @@
-﻿@model ApplicationOutage.Outage
+﻿@model ApplicationOutage.ViewModels.OutageViewModel
 
 @{
     ViewBag.Title = "Edit";
@@ -27,22 +27,25 @@
     <div class="form-group">
         @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control datepicker" } })
             @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
         @Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.EditorFor(model => model.EndDate,new { htmlAttributes = new { @class = "form-control datepicker" } })
             @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+            <div>
+                <span id="errormess" class="text-danger"></span>
+            </div>
         </div>
     </div>
 
     <div class="form-group">
         @Html.LabelFor(model => model.IncidentNumber, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.IncidentNumber, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.EditorFor(model => model.IncidentNumber, new { htmlAttributes = new { @readonly = "readonly", @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.IncidentNumber, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -77,7 +80,7 @@
     </div>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Save" class="btn btn-success" />
+            <input id="btnOutage" type="submit" value="Save" class="btn btn-success btn-sm" />
         </div>
     </div>
 </div>
@@ -92,7 +95,7 @@
     $(document).ready(function () {
         $(function () {
             $("#StartDate,#EndDate").datetimepicker({
-                format: 'd/m/Y H:i',
+                format: 'd-m-Y H:i',
                 step: 05
             });
         });

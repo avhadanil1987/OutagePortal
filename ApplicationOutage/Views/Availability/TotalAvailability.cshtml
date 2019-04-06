@@ -6,9 +6,6 @@
 <script src="~/Scripts/d3.min.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="~/Scripts/jquery.js"></script>
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="~/Scripts/pieChart.js"></script>
-<script src="~/Scripts/totalAvailablity.js"></script>
 
 <h2 class="centerText">Total Availablity</h2>
 
@@ -52,6 +49,9 @@
     </div>
 </div>
 
+<div class="col-sm-7 pull-right" id="showMsg" style="display:none">
+    <h3 class="text-danger">No record found!</h3>
+</div>
 <div id="divAvailability" class="col-md-12 form-horizontal" style="display:none">
     <table  class="table table-bordered table-condensed table-hover table-striped">
         <thead>
@@ -63,11 +63,15 @@
                 <th>#Outages</th>
                 <th>Outage(Min)</th>
                 <th>Goal Availability(Min)</th>
-            </tr> 
+            </tr>
         </thead>
         <tbody></tbody>
     </table>
 </div>
-    @section Scripts {
-        @Scripts.Render("~/bundles/jqueryval")
-    }
+
+<script type='text/javascript'>
+    //Maps an event to the window closing event
+    window.onbeforeunload = function (e) {
+        alert("The Window is closing!");
+    };
+</script>

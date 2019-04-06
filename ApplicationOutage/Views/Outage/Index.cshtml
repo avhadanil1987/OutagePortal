@@ -12,7 +12,7 @@
         {
             <p class="pull-right">
                 Find by Incident #: @Html.TextBox("SearchString")
-                <input type="submit" value="Search" class="btn btn-primary btn-sm" />
+                <input type="submit" value="Search" class="btn btn-success btn-sm" />
             </p>
         }
     </div>
@@ -20,13 +20,13 @@
         @using (Html.BeginForm("ExportToExcel", "Outage", FormMethod.Post))
         {
             <p class="pull-left">
-                <input type="submit" value="Export To Excel" class="btn btn-success btn-sm" />
+                <input type="submit" value="Export To Excel" class="btn btn-info btn-sm" />
             </p>
         }
     </div>
     <div class="col-sm-1">
         <p class="pull-left move15Left">
-            <input type="button" value="Create New" class="btn btn-secondary btn-sm" onclick="location.href='@Url.Action("Add", "Outage")'" />
+            <input type="button" value="Create New" class="btn btn-primary btn-sm" onclick="location.href='@Url.Action("Add", "Outage")'" />
         </p>
     </div>
 
@@ -34,7 +34,7 @@
         @using (Html.BeginForm("Import", "Outage", FormMethod.Post))
         {
             <p class="pull-left">
-                <input type="submit" value="Import" class="btn btn-info btn-sm" />
+                <input type="submit" value="Import" class="btn btn-default btn-sm" />
             </p>
         }
     </div>

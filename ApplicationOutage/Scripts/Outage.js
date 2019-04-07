@@ -1,8 +1,8 @@
 ﻿$("#EndDate").focusout(function () {
     if ($("#StartDate").val() != "" && $("#EndDate").val() != "") {
-        if ($(this).val() < $("#StartDate").val()) {
+        if ($(this).val() <= $("#StartDate").val()) {
             $("#btnOutage").prop("disabled", true);
-            $("#errormess").html('End Date value cannot be lower then Start Date Value');
+            $("#errormess").html('End date value cannot be lower then or equal to start date value.');
         }
         else {
             $("#btnOutage").prop("disabled", false);
@@ -13,9 +13,9 @@
 
 $("#StartDate").focusout(function () {
     if ($("#StartDate").val() != "" && $("#EndDate").val() != "") {
-        if ($(this).val() > $("#EndDate").val()) {
+        if ($(this).val() >= $("#EndDate").val()) {
             $("#btnOutage").prop("disabled", true);
-            $("#errormess").html('End Date value cannot be lower then Start Date Value');
+            $("#errormess").html('End date value cannot be lower then or equal to start date value.');
         }
         else {
             $("#btnOutage").prop("disabled", false);

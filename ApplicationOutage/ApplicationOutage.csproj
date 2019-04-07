@@ -201,6 +201,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Outage.tt</DependentUpon>
     </Compile>
+    <Compile Include="UsersInfo.cs">
+      <DependentUpon>Outage.tt</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\ForgotPasswordModel.cs" />
     <Compile Include="ViewModels\LoginModel.cs" />
     <Compile Include="ViewModels\OutageViewModel.cs" />
@@ -219,9 +222,6 @@
       <DependentUpon>Outage.edmx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="User.cs">
-      <DependentUpon>Outage.tt</DependentUpon>
-    </Compile>
     <Compile Include="YearlyAvailability.cs">
       <DependentUpon>Outage.tt</DependentUpon>
     </Compile>

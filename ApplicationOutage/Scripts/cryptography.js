@@ -11,7 +11,8 @@
 });
 
 SubmitRegsiterForm = function () {
-    if ($("#FirstName").val() != "" && $("#LastName").val() != "" && $("#UserEmail").val() != "") {
+    if ($("#FirstName").val() != "" && $("#LastName").val() != "" && $("#UserEmail").val() != ""
+        && $('#ConfirmPassword').val() != "" && $('#Password').val() != "") {
         $('#ConfirmPassword').val("Password@1234");
         $('#Password').val("Password@1234");
     }

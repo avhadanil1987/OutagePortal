@@ -28,6 +28,6 @@ namespace ApplicationOutage
         public virtual DbSet<Application> Applications { get; set; }
         public virtual DbSet<Outage> Outages { get; set; }
         public virtual DbSet<YearlyAvailability> YearlyAvailabilities { get; set; }
-        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<UsersInfo> UsersInfoes { get; set; }
     }
 }

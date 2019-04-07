@@ -14,8 +14,8 @@ namespace ApplicationOutage.Models
             {
                 using (ApplicationOutageEntities entities = new ApplicationOutageEntities())
                 {
-                    User mappedUser = new User() { FirstName = User.FirstName, LastName = User.LastName, Password = User.EncryptPassword, UserEmail = User.UserEmail, IsActive = false };
-                    entities.Users.Add(mappedUser);
+                    UsersInfo mappedUser = new UsersInfo() { FirstName = User.FirstName, LastName = User.LastName, Password = User.EncryptPassword, UserEmail = User.UserEmail, IsActive = false };
+                    entities.UsersInfoes.Add(mappedUser);
                     entities.SaveChanges();
                     return true;
                 }
@@ -31,7 +31,7 @@ namespace ApplicationOutage.Models
             {
                 using (ApplicationOutageEntities entities = new ApplicationOutageEntities())
                 {
-                    User user = entities.Users.FirstOrDefault(x => x.UserEmail == loginUser.UserEmail && x.Password == loginUser.EncryptPassword && x.IsActive);
+                    UsersInfo user = entities.UsersInfoes.FirstOrDefault(x => x.UserEmail == loginUser.UserEmail && x.Password == loginUser.EncryptPassword && x.IsActive);
                     if(user!=null)
                     {
                         return true;
@@ -51,7 +51,7 @@ namespace ApplicationOutage.Models
             {
                 using (ApplicationOutageEntities entities = new ApplicationOutageEntities())
                 {
-                    var user = entities.Users.FirstOrDefault(x => x.Id == id);
+                    var user = entities.UsersInfoes.FirstOrDefault(x => x.Id == id);
                     if (user != null)
                     {
                         return new UsersViewModel() { Id = user.Id, FirstName = user.FirstName, IsActive = user.IsActive, LastName = user.LastName, UserEmail = user.UserEmail };
@@ -71,7 +71,7 @@ namespace ApplicationOutage.Models
             {
                 using (ApplicationOutageEntities entities = new ApplicationOutageEntities())
                 {
-                    var user = entities.Users.FirstOrDefault(x => x.Id == updatedUser.Id);
+                    var user = entities.UsersInfoes.FirstOrDefault(x => x.Id == updatedUser.Id);
                     if (user != null)
                     {
                         user.IsActive = updatedUser.IsActive;
@@ -97,7 +97,7 @@ namespace ApplicationOutage.Models
             {
                 using (ApplicationOutageEntities entities = new ApplicationOutageEntities())
                 {
-                   return entities.Users.Where(x=>!x.IsAdmin).Select(x => new UsersViewModel { Id = x.Id, IsActive = x.IsActive,
+                   return entities.UsersInfoes.Where(x=>!x.IsAdmin).Select(x => new UsersViewModel { Id = x.Id, IsActive = x.IsActive,
                                                 FirstName = x.FirstName,
                                                 LastName = x.LastName,
                                                 UserEmail = x.UserEmail })
@@ -116,7 +116,7 @@ namespace ApplicationOutage.Models
             {
                 using (ApplicationOutageEntities entities = new ApplicationOutageEntities())
                 {
-                    var user = entities.Users.FirstOrDefault(x => x.UserEmail.ToLower().Trim() == resetUser.UserEmail.ToLower().Trim());
+                    var user = entities.UsersInfoes.FirstOrDefault(x => x.UserEmail.ToLower().Trim() == resetUser.UserEmail.ToLower().Trim());
                     if (user != null)
                     {
                         user.Password = resetUser.EncryptPassword;

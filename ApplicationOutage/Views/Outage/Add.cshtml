@@ -74,14 +74,14 @@
             @foreach (var component in ViewBag.Components)
             {
                 string value = component.Value;
-            <div>
-                <lable>
-                    @Html.RadioButtonFor(model => model.Component, value)
-                    @component.Value
-                </lable>
-            </div>
-                @Html.ValidationMessageFor(model => model.Component, "", new { @class = "text-danger" })
+                <div>
+                    <lable>
+                        @Html.RadioButtonFor(model => model.Component, value)
+                        @component.Value
+                    </lable>
+                </div>
             }
+            @Html.ValidationMessageFor(model => model.Component, "", new { @class = "text-danger" })
 
         </div>
     </div>

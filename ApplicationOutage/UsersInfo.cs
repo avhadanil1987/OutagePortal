@@ -12,7 +12,7 @@ namespace ApplicationOutage
     using System;
     using System.Collections.Generic;
     
-    public partial class User
+    public partial class UsersInfo
     {
         public int Id { get; set; }
         public string FirstName { get; set; }

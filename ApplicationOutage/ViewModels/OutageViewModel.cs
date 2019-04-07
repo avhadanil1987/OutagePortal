@@ -15,18 +15,20 @@ namespace ApplicationOutage.ViewModels
         [Display(Name = "Start Date")]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy HH:mm}", ApplyFormatInEditMode = true)]
         [Required(ErrorMessage = "Start Date is required.")]
-        public System.DateTime StartDate { get; set; }
+        public DateTime StartDate { get; set; }
 
         [Display(Name = "End Date")]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy HH:mm}", ApplyFormatInEditMode = true)]
         [Required(ErrorMessage = "End Date is required.")]
-        public System.DateTime EndDate { get; set; }
+        public DateTime EndDate { get; set; }
 
         [Required(ErrorMessage = "Impact is required.")]
         public string Impact { get; set; }
 
         [Required(ErrorMessage = "Description is required.")]
         public string Description { get; set; }
+
+        [Required(ErrorMessage = "Component is required.")]
         public string Component { get; set; }
 
         [Display(Name = "Incident #")]
